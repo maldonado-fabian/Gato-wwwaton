@@ -13,9 +13,12 @@ use mongodb::bson::oid::ObjectId;
 #[post("/user")]
 pub async fn create_user(db: Data<MongoRepo>, new_usr: Json<User>) -> HttpResponse {
     let data = User {
-        id: None,
-        name: new_usr.name.to_owned(),
+        id : None,
+        nombre : new_usr.nombre.to_owned(),
+        apellido : new_usr.apellido.to_owned(),
         rut: new_usr.rut.to_owned(),
+        direccion : new_usr.direccion.to_owned(),
+        celular : new_usr.celular.to_owned(),
     };
 
     let user_detail = db.create_user(data).await;
@@ -47,9 +50,12 @@ pub async fn put_user(db: Data<MongoRepo>, path: Path<String>, new_usr: Json<Use
     }
 
     let data = User {
-        id: Some(ObjectId::parse_str(&id).unwrap()),
-        name: new_usr.name.to_owned(),
+        id : Some(ObjectId::parse_str(&id).unwrap()),
+        nombre : new_usr.nombre.to_owned(),
+        apellido : new_usr.apellido.to_owned(), 
         rut: new_usr.rut.to_owned(),
+        direccion : new_usr.direccion.to_owned(),
+        celular : new_usr.celular.to_owned(),
     };
 
     let updated_res = db.update_user(&id, data).await;

@@ -10,7 +10,10 @@ use mongodb::{
 
 use crate::model::{
     user_model::User,
+<<<<<<< HEAD
     document_model::Document,
+=======
+>>>>>>> e6198d0adf86b86490c24df490dcf90bc9f5478e
     prestamo_model::Prestamo,
 };
 
@@ -18,8 +21,11 @@ use crate::model::{
 pub struct MongoRepo {
     //usuarios
     col_user: Collection<User>,
+<<<<<<< HEAD
     //libros
     col_document: Collection<Document>,
+=======
+>>>>>>> e6198d0adf86b86490c24df490dcf90bc9f5478e
     //prestamos
     col_pres: Collection<Prestamo>
     
@@ -38,11 +44,16 @@ impl MongoRepo {
         let client = Client::with_uri_str(uri).await.unwrap();
         let db = client.database("rustDB");
         let col_user: Collection<User> = db.collection("User");
+<<<<<<< HEAD
         let col_document: Collection<Document> = db.collection("Document");
 
         
         let col_pres: Collection<Prestamo> = db.collection("Prestamo");
 
+=======
+        let col_pres: Collection<Prestamo> = db.collection("Prestamo");
+
+>>>>>>> e6198d0adf86b86490c24df490dcf90bc9f5478e
         MongoRepo { col_user, col_pres }
     }
 
@@ -136,6 +147,7 @@ impl MongoRepo {
 
 }
 
+<<<<<<< HEAD
 //document logic
 impl MongoRepo {
     pub async fn create_document(&self, new_document: Document) -> Result<InsertOneResult,Error> {
@@ -206,6 +218,41 @@ impl MongoRepo {
         .await
         .expect("Error getting pres detail.");
 
+=======
+impl MongoRepo {
+    pub async fn create_pres(&self, new_pres: Prestamo) -> Result<InsertOneResult, Error> {
+        let new_doc = Prestamo {
+            id : None,
+            id_ejemplar : new_pres.id_ejemplar,
+            tipo_prestamo : new_pres.tipo_prestamo,
+            fecha_prestamo : new_pres.fecha_prestamo,
+            hora_prestamo : new_pres.hora_prestamo,
+            hora_devolucion : new_pres.hora_devolucion,
+            fecha_devolucion : new_pres.fecha_devolucion,
+            fecha_devolucion_real : new_pres.fecha_devolucion_real,
+            hora_devolucion_real : new_pres.hora_devolucion_real,
+        };
+
+        let pres = self
+        .col_pres
+        .insert_one(new_doc, None)
+        .await
+        .ok()
+        .expect("Error creando prestamo");
+
+        Ok(pres)
+    }
+    
+    pub async fn get_prestamo(&self, pres_id: &String) -> Result<Prestamo, Error> {
+        let o_id = ObjectId::parse_str(pres_id).unwrap();
+        let filter = doc! {"_id" : o_id};
+        let prestamo_detail = self
+        .col_pres
+        .find_one(filter, None)
+        .await
+        .expect("Error getting pres detail.");
+
+>>>>>>> e6198d0adf86b86490c24df490dcf90bc9f5478e
         Ok(prestamo_detail.unwrap())
     }
 

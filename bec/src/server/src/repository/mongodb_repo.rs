@@ -42,8 +42,11 @@ impl MongoRepo {
     pub async fn create_user(&self, new_usr: User) -> Result<InsertOneResult, Error> {
         let new_doc = User {
             id: None,
-            name: new_usr.name,
+            nombre: new_usr.nombre,
+            apellido: new_usr.apellido,
             rut: new_usr.rut,
+            direccion: new_usr.direccion,
+            celular: new_usr.celular,
         };
 
         let user = self
@@ -74,8 +77,11 @@ impl MongoRepo {
         let new_doc = doc! {
             "$set" : {
                 "id" : new_usr.id,
-                "name" : new_usr.name,
+                "nombre" : new_usr.nombre,
+                "apellido" : new_usr.apellido,
                 "rut" : new_usr.rut,
+                "direccion" : new_usr.direccion,
+                "celular" : new_usr.celular
             },
         };
 

@@ -9,7 +9,7 @@ use dotenv::dotenv;
 use actix_web::{ web::Data, App, HttpServer };
 use api::{
     user_api::{create_user, get_user, put_user, delete_user,get_users},
-    book_api::{create_book, get_book},
+    document_api::{create_document, get_document},
 };
 use repository::mongodb_repo::MongoRepo;
 
@@ -36,8 +36,8 @@ async fn main() -> std::io::Result<()> {
         .service(put_user)
         .service(delete_user)
         .service(get_users)
-        .service(create_book)
-        .service(get_book)
+        .service(create_document)
+        .service(get_document)
     })
     .bind((host, port))?
     .run()

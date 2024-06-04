@@ -10,7 +10,7 @@ use mongodb::{
 
 use crate::model::{
     user_model::User,
-    book_model::Book,
+    document_model::Document,
 };
 
 
@@ -18,7 +18,7 @@ pub struct MongoRepo {
     //usuarios
     col_user: Collection<User>,
     //libros
-    col_book: Collection<Book>,
+    col_document: Collection<Document>,
 }
 
 //User logic
@@ -34,9 +34,9 @@ impl MongoRepo {
         let client = Client::with_uri_str(uri).await.unwrap();
         let db = client.database("rustDB");
         let col_user: Collection<User> = db.collection("User");
-        let col_book: Collection<Book> = db.collection("Book");
+        let col_document: Collection<Document> = db.collection("Document");
 
-        MongoRepo { col_user, col_book }
+        MongoRepo { col_user, col_document }
     }
 
     pub async fn create_user(&self, new_usr: User) -> Result<InsertOneResult, Error> {
@@ -123,38 +123,42 @@ impl MongoRepo {
 
 }
 
-//Book logic
+//document logic
 impl MongoRepo {
-    pub async fn create_book(&self, new_book: Book) -> Result<InsertOneResult,Error> {
-        let new_doc: Book = Book {
+    pub async fn create_document(&self, new_document: Document) -> Result<InsertOneResult,Error> {
+        let new_doc: Document = Document {
             id: None,
-            title: new_book.title,
-            author: new_book.author,
-            editorial: new_book.editorial,
-            isbn: new_book.isbn,
-            is_available: new_book.is_available,
+            tipo: new_document.tipo,
+            titulo: new_document.titulo,
+            autor: new_document.autor,
+            editorial: new_document.editorial,
+            ano: new_document.ano,
+            edicion: new_document.edicion,
+            categoria: new_document.categoria,
+            isbn: new_document.isbn,
+            esta_disponible: new_document.esta_disponible,
         };
 
-        let book = self
-            .col_book
+        let document = self
+            .col_document
             .insert_one(new_doc, None)
             .await
-            .ok()
-            .expect("Error creating book");
+            .ok() 
+            .expect("Error creating document");
         
-        Ok(book)       
+        Ok(document)       
     }
 
-    pub async fn get_book(&self, book_id: &String) -> Result<Book, Error> {
-        let obj_id = ObjectId::parse_str(book_id).unwrap();
+    pub async fn get_document(&self, document_id: &String) -> Result<Document, Error> {
+        let obj_id = ObjectId::parse_str(document_id).unwrap();
         let filter = doc! { "_id": obj_id };
-        let book_detail = self
-        .col_book
+        let document_detail = self
+        .col_document
         .find_one(filter, None)
         .await
-        .expect("Error getting book detail");
+        .expect("Error getting document detail");
 
-        Ok(book_detail.unwrap())
+        Ok(document_detail.unwrap())
     }
 
 }

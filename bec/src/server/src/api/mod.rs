@@ -1,2 +1,2 @@
 pub mod user_api;
-pub mod book_api;
+pub mod document_api;

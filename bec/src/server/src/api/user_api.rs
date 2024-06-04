@@ -2,6 +2,7 @@ use crate::{
     model::user_model::User, 
     repository::mongodb_repo::MongoRepo
 };
+
 use actix_web::{
     post, put, get, delete,
     web::{Data, Json, Path},

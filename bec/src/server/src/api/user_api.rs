@@ -1,6 +1,8 @@
 use crate::{
     model::user_model::User, 
+    model::loginrequest_model::LoginRequest,
     repository::mongodb_repo::MongoRepo
+
 };
 
 use actix_web::{
@@ -8,8 +10,9 @@ use actix_web::{
     web::{Data, Json, Path},
     HttpResponse,
 };
-
+use actix_web::web;
 use mongodb::bson::oid::ObjectId;
+
 
 #[post("/user")]
 pub async fn create_user(db: Data<MongoRepo>, new_usr: Json<User>) -> HttpResponse {
@@ -20,6 +23,8 @@ pub async fn create_user(db: Data<MongoRepo>, new_usr: Json<User>) -> HttpRespon
         rut: new_usr.rut.to_owned(),
         direccion : new_usr.direccion.to_owned(),
         celular : new_usr.celular.to_owned(),
+        admin : new_usr.admin.to_owned(),
+        pass : new_usr.pass.to_owned(),
     };
 
     let user_detail = db.create_user(data).await;
@@ -57,6 +62,9 @@ pub async fn put_user(db: Data<MongoRepo>, path: Path<String>, new_usr: Json<Use
         rut: new_usr.rut.to_owned(),
         direccion : new_usr.direccion.to_owned(),
         celular : new_usr.celular.to_owned(),
+        admin : new_usr.admin.to_owned(),
+        pass : new_usr.pass.to_owned(),
+
     };
 
     let updated_res = db.update_user(&id, data).await;
@@ -110,4 +118,23 @@ pub async fn get_users(db: Data<MongoRepo>) -> HttpResponse {
         Ok(users) => HttpResponse::Ok().json(users),
         Err(e) => HttpResponse::InternalServerError().body(e.to_string()),
     }
+}
+
+
+#[post("/login")]
+pub async fn login(db: web::Data<MongoRepo>, req: web::Json<LoginRequest>) -> HttpResponse {
+    let rut = &req.rut;
+    let pass = &req.pass;
+
+    // Busca el usuario por rut en la base de datos
+    if let Some(user) = db.get_user_by_rut(rut).await {
+        // Verifica la contraseña del usuario
+        if user.pass == *pass {
+            // Contraseña correcta, inicio de sesión exitoso
+            return HttpResponse::Ok().json("Login successful");
+        }
+    }
+
+    // Autenticación fallida
+    HttpResponse::Unauthorized().json("Invalid rut or password")
 }

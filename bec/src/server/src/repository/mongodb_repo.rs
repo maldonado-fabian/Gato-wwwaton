@@ -24,6 +24,7 @@ pub struct MongoRepo {
     col_pres: Collection<Prestamo>
     
 }
+//Login logic
 
 //User logic
 impl MongoRepo {
@@ -44,6 +45,7 @@ impl MongoRepo {
         MongoRepo { col_user, col_pres, col_document }
     }
 
+
     pub async fn create_user(&self, new_usr: User) -> Result<InsertOneResult, Error> {
         let new_doc = User {
             id: None,
@@ -52,6 +54,8 @@ impl MongoRepo {
             rut: new_usr.rut,
             direccion: new_usr.direccion,
             celular: new_usr.celular,
+            admin: new_usr.admin,
+            pass: new_usr.pass,
         };
 
         let user = self
@@ -76,6 +80,13 @@ impl MongoRepo {
         Ok(usr_detail.unwrap())
     }
 
+    pub async fn get_user_by_rut(&self, usr_rut: &String) -> Option<User> {
+        match self.col_user.find_one(doc! {"rut": usr_rut}, None).await {
+            Ok(Some(usr_detail)) => Some(usr_detail),
+            _ => None,
+        }
+    }
+
     pub async fn update_user(&self, id: &String, new_usr: User) -> Result<UpdateResult, Error> {
         let obj_id = ObjectId::parse_str(id).unwrap();
         let filter = doc! {"_id": obj_id};
@@ -86,7 +97,9 @@ impl MongoRepo {
                 "apellido" : new_usr.apellido,
                 "rut" : new_usr.rut,
                 "direccion" : new_usr.direccion,
-                "celular" : new_usr.celular
+                "celular" : new_usr.celular,
+                "admin": new_usr.admin,
+                "pass": new_usr.pass
             },
         };
 
@@ -173,6 +186,7 @@ impl MongoRepo {
     }
 }
 
+// Logica del prestamo
 impl MongoRepo {
     pub async fn create_pres(&self, new_pres: Prestamo) -> Result<InsertOneResult, Error> {
         let new_doc = Prestamo {

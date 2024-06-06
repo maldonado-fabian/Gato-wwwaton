@@ -12,6 +12,7 @@ use crate::model::{
     user_model::User,
     document_model::Document,
     prestamo_model::Prestamo,
+    solicitud_prestamo_model::SolicitudPrestamo,
 };
 
 
@@ -21,7 +22,8 @@ pub struct MongoRepo {
     //libros
     col_document: Collection<Document>,
     //prestamos
-    col_pres: Collection<Prestamo>
+    col_pres: Collection<Prestamo>,
+    col_soli: Collection<SolicitudPrestamo>,
     
 }
 
@@ -31,17 +33,40 @@ impl MongoRepo {
     pub async fn init() -> Self {
         dotenv().ok();
         let uri = match env::var("MONGOURI") {
-            Ok(v) => v.to_string(),
-            Err(_) => format!("Error loading env variable"), 
+            Ok(v) => {
+                println!("Loaded env uri");
+                v.to_string()
+            },
+            Err(_) => panic!("Error loading env variable"), 
         };
 
-        let client = Client::with_uri_str(uri).await.unwrap();
-        let db = client.database("rustDB");
+        let client = match Client::with_uri_str(uri).await {
+            Ok(cli) => {
+                println!("Successfully connected to MongoDB");
+                cli
+            },
+            Err(e)  => {
+                eprintln!("Failed to connect to MongoDB client: {}",e);
+                panic!("Failed to connect to MongoDB");
+            },
+        };
+
+        let db_name = match env::var("DBNAME") {
+            Ok(p) => {
+                println!("Loaded db name from .env");
+                p.to_string()
+            }
+            Err(_) => {
+                panic!("Could not read db name from .env file");
+            }
+        };
+        let db = client.database(&db_name);
         let col_user: Collection<User> = db.collection("User");
         let col_document: Collection<Document> = db.collection("Document");
         let col_pres: Collection<Prestamo> = db.collection("Prestamo");
+        let col_soli: Collection<SolicitudPrestamo> = db.collection("SolicitudPrestamo");
 
-        MongoRepo { col_user, col_pres, col_document }
+        MongoRepo { col_user, col_pres, col_document, col_soli }
     }
 
     pub async fn create_user(&self, new_usr: User) -> Result<InsertOneResult, Error> {
@@ -173,6 +198,7 @@ impl MongoRepo {
     }
 }
 
+//prestamos logic
 impl MongoRepo {
     pub async fn create_pres(&self, new_pres: Prestamo) -> Result<InsertOneResult, Error> {
         let new_doc = Prestamo {
@@ -268,4 +294,94 @@ impl MongoRepo {
         Ok(prestamos)
     }
 
+}
+
+//Solicitudes de prestamos
+impl MongoRepo {
+    pub async fn create_sol(&self, new_sol: SolicitudPrestamo) -> Result<InsertOneResult, Error> {
+        let new_doc = SolicitudPrestamo {
+            id : None,
+            id_solicitud : new_sol.id_solicitud,
+            rut : new_sol.rut,
+            fecha_solicitud : new_sol.fecha_solicitud,
+            hora_solicitud : new_sol.hora_solicitud,
+        };
+
+        let solicitud = self
+        .col_soli
+        .insert_one(new_doc, None)
+        .await
+        .ok()
+        .expect("Error creando solicitud de prestamo");
+
+        Ok(solicitud)
+    }
+    
+    pub async fn get_solpres(&self, sol_id: &String) -> Result<SolicitudPrestamo, Error> {
+        let o_id = ObjectId::parse_str(sol_id).unwrap();
+        let filter = doc! {"_id" : o_id};
+        let solicitud_detail = self
+        .col_soli
+        .find_one(filter, None)
+        .await
+        .expect("Error getting pres detail.");
+
+        Ok(solicitud_detail.unwrap())
+    }
+
+    pub async fn update_soli(&self, id: &String, new_sol: SolicitudPrestamo) -> Result<UpdateResult, Error> {
+        let obj_id = ObjectId::parse_str(id).unwrap();
+        let filter = doc! {"_id": obj_id};
+        let new_doc = doc! {
+            "$set" : {
+                "id" : new_sol.id,
+                "id_solicitud" : new_sol.id_solicitud,
+                "rut" : new_sol.rut,
+                "fecha_solicitud" : new_sol.fecha_solicitud,
+                "hora_solicitud" : new_sol.hora_solicitud,
+            },
+        };
+
+        let updated_doc = self
+        .col_soli
+        .update_one(filter, new_doc, None)
+        .await
+        .ok()
+        .expect("Could not update pres");
+        
+        Ok(updated_doc)
+    }
+
+    pub async fn delete_sol(&self, id: &String) -> Result<DeleteResult, Error> {
+        let o_id = ObjectId::parse_str(id).unwrap();
+        let filter = doc! { "_id": o_id };
+        let sol_detail = self
+        .col_soli
+        .delete_one(filter, None)
+        .await
+        .ok()
+        .expect("Could not delete pres.");
+
+        Ok(sol_detail)
+
+    }
+
+    pub async fn get_all_solicitudes(&self) -> Result<Vec<SolicitudPrestamo>, Error> {
+        let mut cursor = self
+                            .col_soli
+                            .find(None,None)
+                            .await
+                            .ok()
+                            .expect("Error getting list of pres.");
+        let mut solicitudes: Vec<SolicitudPrestamo> = Vec::new();
+        while let Some(sol) = cursor
+                .try_next()
+                .await
+                .ok()
+                .expect("Error mapping through cursor.") {
+                    solicitudes.push(sol)
+                }
+        Ok(solicitudes)
+    }
+ 
 }

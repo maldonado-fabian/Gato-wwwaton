@@ -2,9 +2,11 @@ use crate::{
     model::document_model::Document,
     repository::mongodb_repo::MongoRepo,
 };
+use mongodb::Collection;
 use actix_web::{
-    post, get,
+    post, get, put, delete, Responder, 
     web::{Data, Json, Path},
+    web,
     HttpResponse,
 };
 
@@ -21,7 +23,7 @@ pub async fn create_document(db: Data<MongoRepo>, new_document: Json<Document> )
         edicion: new_document.edicion.to_owned(),
         categoria: new_document.categoria.to_owned(),
         isbn: new_document.isbn.to_owned(),
-        esta_disponible: new_document.esta_disponible.to_owned(),
+        libros: new_document.libros.to_owned(),
     };
 
     let document_detail = db.create_document(data).await;
@@ -45,3 +47,4 @@ pub async fn get_document(db: Data<MongoRepo>, path: Path<String>) -> HttpRespon
         Err(e) => HttpResponse::InternalServerError().body(e.to_string()),
     }
 }
+

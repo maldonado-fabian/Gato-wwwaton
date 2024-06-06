@@ -160,7 +160,7 @@ impl MongoRepo {
             edicion: new_document.edicion,
             categoria: new_document.categoria,
             isbn: new_document.isbn,
-            esta_disponible: new_document.esta_disponible,
+            libros: new_document.libros,
         };
 
         let document = self

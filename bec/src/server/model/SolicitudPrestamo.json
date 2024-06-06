@@ -1,0 +1,7 @@
+{
+  "_id": "ObjectId(...)",
+  "n_prestamo": "String", 
+  "fecha_solicitud": "String",
+  "hora_solicitud": "String",
+  "estado": "pendiente|aceptado|rechazado"
+}

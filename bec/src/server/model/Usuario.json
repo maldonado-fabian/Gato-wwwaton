@@ -1,0 +1,12 @@
+{
+  "_id": "ObjectID(...)",
+  "nombre": "String",
+  "apellido": "String",
+  "rut": "String",
+  "password": "String",
+  "direccion": "String",
+  "celular": "String",
+  "url_foto": "String",
+  "url_huella": "String",
+  "is_admin": "Bool"
+}

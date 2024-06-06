@@ -1,0 +1,11 @@
+{
+  "_id": "ObjectID(...)",
+  "n_prestamo" : "String",
+  "tipo_prestamo": "String",
+  "fecha_prestamo": "String",
+  "hora_prestamo": "String",
+  "hora_devolucion": "String",
+  "fecha_devolucion": "String",
+  "fecha_devolucion_real": "String",
+  "hora_devolucion_real": "String"
+}

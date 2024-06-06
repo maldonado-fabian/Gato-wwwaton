@@ -1,0 +1,12 @@
+{
+  "id": "ObjectID(...)",
+  "tipo": "String",
+  "titulo": "String",
+  "autor": "String",
+  "editorial": "String",
+  "año": "String",
+  "edicion": "String",
+  "categoria": "String",
+  "isbn": "String",
+  "disponible": "Bool"
+}

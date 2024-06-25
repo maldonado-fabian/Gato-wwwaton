@@ -2,6 +2,7 @@ use crate::{
     model::document_model::Document,
     repository::mongodb_repo::MongoRepo,
 };
+use serde::Deserialize;
 use mongodb::Collection;
 use actix_web::{
     post, get, put, delete, Responder, 
@@ -47,4 +48,26 @@ pub async fn get_document(db: Data<MongoRepo>, path: Path<String>) -> HttpRespon
         Err(e) => HttpResponse::InternalServerError().body(e.to_string()),
     }
 }
+#[derive(Deserialize)]
+pub struct AvailabilityUpdate {
+    availability: bool,
+}
+#[put("/document/{document_id}/{book_id}")]
+pub async fn update_book_availability(
+    db: Data<MongoRepo>, 
+    path: Path<(String, String)>, 
+    availability_update: Json<AvailabilityUpdate>
+) -> HttpResponse {
+    let (document_id, book_id) = path.into_inner();
 
+    if document_id.is_empty() || book_id.is_empty() {
+        return HttpResponse::BadRequest().body("ID inválido");
+    }
+
+    let update_result = db.update_book_availability(&document_id, &book_id, availability_update.availability).await;
+    
+    match update_result {
+        Ok(result) => HttpResponse::Ok().json(result),
+        Err(e) => HttpResponse::InternalServerError().body(e.to_string()),
+    }
+}

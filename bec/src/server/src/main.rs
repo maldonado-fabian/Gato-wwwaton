@@ -5,7 +5,7 @@ mod repository;
 use actix_web::{ web::Data, App, HttpServer };
 use api::{
     user_api::{create_user, get_user, put_user, delete_user,get_users, login},
-    document_api::{create_document, get_document},
+    document_api::{create_document, get_document, update_book_availability},
     prestamos_api::{create_prestamo, get_prestamo, put_prestamo, delete_prestamo,get_prestamos}
 
 };
@@ -25,7 +25,7 @@ async fn main() -> std::io::Result<()> {
         .service(delete_user)
         .service(get_users)
         .service(login)
-
+        .service(update_book_availability)
         .service(create_document)
         .service(get_document)
         .service(create_prestamo)

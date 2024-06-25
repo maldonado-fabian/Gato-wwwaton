@@ -18,7 +18,7 @@ use crate::model::{
 pub struct MongoRepo {
     //usuarios
     col_user: Collection<User>,
-    //libros
+    //todo tipo de documentos
     col_document: Collection<Document>,
     //prestamos
     col_pres: Collection<Prestamo>
@@ -149,8 +149,16 @@ impl MongoRepo {
 
 //document logic
 impl MongoRepo {
-    pub async fn create_document(&self, new_document: Document) -> Result<InsertOneResult,Error> {
-        let new_doc: Document = Document {
+    pub async fn create_document(&self, new_document: Document) -> Result<InsertOneResult, Error> {
+        let mut books_with_ids = Vec::new();
+
+        for book in new_document.libros {
+            let mut book_with_id = book.clone();
+            book_with_id.id = Some(ObjectId::new());
+            books_with_ids.push(book_with_id);
+        }
+
+        let new_doc = Document {
             id: None,
             tipo: new_document.tipo,
             titulo: new_document.titulo,
@@ -160,17 +168,17 @@ impl MongoRepo {
             edicion: new_document.edicion,
             categoria: new_document.categoria,
             isbn: new_document.isbn,
-            libros: new_document.libros,
+            libros: books_with_ids,
         };
 
         let document = self
             .col_document
             .insert_one(new_doc, None)
             .await
-            .ok() 
+            .ok()
             .expect("Error creating document");
-        
-        Ok(document)       
+
+        Ok(document)
     }
 
     pub async fn get_document(&self, document_id: &String) -> Result<Document, Error> {
@@ -184,6 +192,26 @@ impl MongoRepo {
 
         Ok(document_detail.unwrap())
     }
+
+    pub async fn update_book_availability(&self, document_id: &String, book_id: &String, availability: bool) -> Result<UpdateResult, Error> {
+        let obj_id = ObjectId::parse_str(document_id).unwrap();
+        let book_obj_id = ObjectId::parse_str(book_id).unwrap();
+        let filter = doc! { "_id": obj_id, "libros._id": book_obj_id };
+        let update = doc! {
+            "$set": { "libros.$.disponibilidad": availability }
+        };
+
+        let update_result = self
+            .col_document
+            .update_one(filter, update, None)
+            .await
+            .ok()
+            .expect("Could not update book availability");
+
+        Ok(update_result)
+    }
+
+
 }
 
 // Logica del prestamo

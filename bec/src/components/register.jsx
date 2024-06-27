@@ -40,14 +40,16 @@ const Register = () => {
       pass: formData.pass,
     };
 
-    console.log('http://localhost:8080/user', 'http://localhost:8080/user'); // Añadir esta línea
-    console.log('Datos enviados:', JSON.stringify(dataToSend, null, 2)); // Añadir esta línea
+    console.log('http://localhost:8080/user', 'http://localhost:8080/user');
+    console.log('Datos enviados:', JSON.stringify(dataToSend, null, 2));
 
     try {
       const response = await fetch('http://localhost:8080/user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          // Agregar cualquier otro header necesario aquí
         },
         body: JSON.stringify(dataToSend),
       });
@@ -60,8 +62,8 @@ const Register = () => {
       console.log('Success:', result);
       // Manejar la respuesta exitosa aquí
     } catch (error) {
-      console.error('Error en la solicitud:', error); // Modificar esta línea
-      alert(`Error en la solicitud: ${error.message}`); // Añadir esta línea
+      console.error('Error en la solicitud:', error);
+      alert(`Error en la solicitud: ${error.message}`);
       // Manejar el error aquí
     }
   };

@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Login from "../../components/login"
 import Flownav from "../../components/navbar"
 import { useRouter } from 'next/navigation'
+import axios from 'axios'
 
 const page = () => {
 
@@ -13,28 +14,22 @@ const page = () => {
   const router = useRouter()
 
   const handle_login = async () => {
-    const res = await fetch('http://localhost:8080/login' , {
-      method: "POST",
-      headers: {
-        'Content-Type' : 'application/json',
-      },
-      body: JSON.stringify({rut, pass}),
-    });
+    try {
 
-    if(res.ok) {
-      const usr = await res.json();
-      setIsAdmin(usr.is_admin); 
-      console.log(usr.msg);
-    }
+      const res = await axios.post('http://localhost:8080/login', {
+        rut,
+        pass,
+      });
 
-    else {
-      const e = await res.json();
-      console.log(e);
-    }
-
-    {
-      isAdmin !== null && (
-        <div>
+      if(res.status === 200) {
+        const usr = res.data;
+        setIsAdmin(usr.is_admin);
+        console.log(usr.msg);
+      }
+      
+      {
+        isAdmin !== null && (
+          <div>
           {
             isAdmin ? (
               router.push("/admin")
@@ -45,9 +40,14 @@ const page = () => {
         </div>
       )
     }
-
+    
+    }
+    catch(e) {
+      if(e.response) console.log(e.response.data);
+      else console.log('Error:',e.message);
+    }
   }
-
+  
   return (
     <div className=''>
       <Flownav></Flownav>

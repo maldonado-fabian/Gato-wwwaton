@@ -18,7 +18,7 @@ const App = () => {
           const formattedLibros = await Promise.all(librosData.map(async (libro) => {
             const tituloFormateado = libro.titulo.replace(/\s+/g, '+');
             const autorFormateado = libro.autor.replace(/\s+/g, '+');
-            const url = `https://bookcover.longitood.com/bookcover?book_title=${tituloFormateado}&author_name=${autorFormateado}`;
+            const url = `http://localhost:8000/bookcover?book_title=${tituloFormateado}&author_name=${autorFormateado}`;
 
             // Realizar una petición GET a la URL de la imagen
             try {
@@ -37,7 +37,7 @@ const App = () => {
                 ...libro,
                 titulo: tituloFormateado,
                 autor: autorFormateado,
-                imageUrl: '' // O un valor por defecto en caso de error
+                imageUrl: 'xd' // O un valor por defecto en caso de error
               };
             }
           }));
@@ -55,6 +55,8 @@ const App = () => {
   }, []);
 
   return (
+    <div>
+      <FlowNav></FlowNav>
     <div className="container mx-auto p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {libros.map((libro) => (
         <Libro
@@ -65,6 +67,7 @@ const App = () => {
           año={libro.año}
         />
       ))}
+    </div>
     </div>
   );
 };

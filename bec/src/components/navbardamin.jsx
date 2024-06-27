@@ -74,6 +74,7 @@ export default function FlowNavAdmin({show, onClose, onClick }) {
             <Navbar.Toggle />
             <div className="flex md:order-2">
             <Navbar.Collapse>
+                <Button pill color="success" className="mr-[2rem] " size="lg">Inicio</Button>
                 <Button onClick={handleShow} pill color="success" className="mr-[2rem] " size="lg">Añadir Documento</Button>
                 <Button pill color="success" className="mr-[2rem] " size="lg">Eliminar Documento</Button>
                 <Button pill color="success" className="mr-[2rem] " size="lg">Solicitudes</Button>

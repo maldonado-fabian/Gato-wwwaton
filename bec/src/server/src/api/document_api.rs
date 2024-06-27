@@ -2,9 +2,12 @@ use crate::{
     model::document_model::Document,
     repository::mongodb_repo::MongoRepo,
 };
+use serde::Deserialize;
+use mongodb::Collection;
 use actix_web::{
-    post, get,
+    post, get, put, delete, Responder, 
     web::{Data, Json, Path},
+    web,
     HttpResponse,
 };
 
@@ -21,7 +24,7 @@ pub async fn create_document(db: Data<MongoRepo>, new_document: Json<Document> )
         edicion: new_document.edicion.to_owned(),
         categoria: new_document.categoria.to_owned(),
         isbn: new_document.isbn.to_owned(),
-        esta_disponible: new_document.esta_disponible.to_owned(),
+        libros: new_document.libros.to_owned(),
     };
 
     let document_detail = db.create_document(data).await;
@@ -42,6 +45,29 @@ pub async fn get_document(db: Data<MongoRepo>, path: Path<String>) -> HttpRespon
     let document_detail = db.get_document(&id).await;
     match document_detail {
         Ok(document) => HttpResponse::Ok().json(document),
+        Err(e) => HttpResponse::InternalServerError().body(e.to_string()),
+    }
+}
+#[derive(Deserialize)]
+pub struct AvailabilityUpdate {
+    availability: bool,
+}
+#[put("/document/{document_id}/{book_id}")]
+pub async fn update_book_availability(
+    db: Data<MongoRepo>, 
+    path: Path<(String, String)>, 
+    availability_update: Json<AvailabilityUpdate>
+) -> HttpResponse {
+    let (document_id, book_id) = path.into_inner();
+
+    if document_id.is_empty() || book_id.is_empty() {
+        return HttpResponse::BadRequest().body("ID inválido");
+    }
+
+    let update_result = db.update_book_availability(&document_id, &book_id, availability_update.availability).await;
+    
+    match update_result {
+        Ok(result) => HttpResponse::Ok().json(result),
         Err(e) => HttpResponse::InternalServerError().body(e.to_string()),
     }
 }

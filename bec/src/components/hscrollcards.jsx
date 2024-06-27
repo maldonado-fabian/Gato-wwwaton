@@ -1,5 +1,5 @@
 import React from 'react';
-import Libro from './Libro'; // Asegúrate de importar correctamente la ubicación de tu componente Libro
+import Libro from './libro'; // Asegúrate de importar correctamente la ubicación de tu componente Libro
 
 const HorizontalScrollCards = ({ title, libros }) => {
   return (

@@ -12,7 +12,12 @@ const Catalogo = () => {
                 <div className='col-span-2'><SideBar></SideBar></div>
                 <div className='col-span-4'>
                     <div className='grid grid-cols-4 gap-x-10 gap-y-10'>
-                        <Libro></Libro>
+                        <Libro
+                            url="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1469392221i/31210898.jpg"
+                            titulo="El señor de los anillos"
+                            autor="Cassandra Clare"
+                            año="2007"
+                        />
                         <Libro></Libro>
                         <Libro></Libro>
                         <Libro></Libro>

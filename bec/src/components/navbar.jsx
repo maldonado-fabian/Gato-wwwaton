@@ -11,15 +11,15 @@ export default function FlowNav() {
             <span className="self-center text-[#09331F] whitespace-nowrap text-xl font-semibold dark:text-white">Biblioteca Estación Central</span>
           </Navbar.Brand>
           <div className="flex md:order-2">
-            <Button pill color="success" className="mr-[2rem] " size="lg">Login</Button>
-            <Button pill color="success" size="lg">Register</Button>
+            <Button pill color="success" className="mr-[2rem] " size="lg" href="/login">Login</Button>
+            <Button pill color="success" size="lg" href="/register">Register</Button>
             <Navbar.Toggle />
           </div>
           <Navbar.Collapse className="bg-[#779481] text-[#09331F]  p-5 px-10 rounded-full">
-            <Navbar.Link href="#" className=" text-[#09331F] text-xl ">
+            <Navbar.Link href="/" className=" text-[#09331F] text-xl ">
               Inicio
             </Navbar.Link>
-            <Navbar.Link href="#" className="mx-10 text-[#09331F] text-xl ">Catalogo</Navbar.Link>
+            <Navbar.Link href="/catalogo" className="mx-10 text-[#09331F] text-xl ">Catalogo</Navbar.Link>
             <Navbar.Link href="#" className=" text-[#09331F] text-xl ">FAQ</Navbar.Link>
           </Navbar.Collapse>
         </Navbar>

@@ -2,6 +2,7 @@ mod api;
 mod model;
 mod repository;
 
+use actix_cors::Cors;
 use actix_web::{ web::Data, App, HttpServer };
 use api::{
     user_api::{create_user, get_user, put_user, delete_user,get_users, login},
@@ -18,6 +19,12 @@ async fn main() -> std::io::Result<()> {
     let db_data = Data::new(db);
     HttpServer::new(move || {
         App::new()
+        .wrap(
+            Cors::default()
+                .allow_any_origin()
+                .allow_any_method()
+                .allow_any_header()
+        )
         .app_data(db_data.clone())
         .service(create_user)
         .service(get_user)

@@ -12,6 +12,7 @@ use actix_web::{
 };
 use actix_web::web;
 use mongodb::bson::oid::ObjectId;
+use serde_json::json;
 
 
 #[post("/user")]
@@ -131,7 +132,11 @@ pub async fn login(db: web::Data<MongoRepo>, req: web::Json<LoginRequest>) -> Ht
         // Verifica la contraseña del usuario
         if user.pass == *pass {
             // Contraseña correcta, inicio de sesión exitoso
-            return HttpResponse::Ok().json("Login successful");
+            let res = json!({
+                "msg" : "Login exitoso!",
+                "is_admin" : user.admin,
+            });
+            return HttpResponse::Ok().json(res);
         }
     }
 

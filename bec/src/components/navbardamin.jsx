@@ -2,7 +2,7 @@
 import React, {useState} from 'react'
 import { Navbar, Modal, Button, TextInput, Label, Select, Checkbox  } from 'flowbite-react';
 
-export default function FlowNavAdmin({show, onClose, onClick }) {
+export default function FlowNavAdmin() {
     const [showModal, setShowModal] = useState(false);
     const handleShow = () => setShowModal(true);
     const handleClose = () => setShowModal(false);

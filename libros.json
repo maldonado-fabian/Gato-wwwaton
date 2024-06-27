@@ -1,0 +1,255 @@
+[
+    {
+        "_id": { "$oid": "60ad8b2b8d1f00007d4e8a20" },
+        "tipo": "Libro",
+        "titulo": "Cien años de soledad",
+        "autor": "Gabriel García Márquez",
+        "editorial": "Editorial Sudamericana",
+        "ano": "1967",
+        "edicion": "1",
+        "categoria": "Ficción",
+        "isbn": "978-950-07-0638-5",
+        "libros": [
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a21" },
+                "ubicacion": "12345",
+                "disponibilidad": true
+            },
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a22" },
+                "ubicacion": "67890",
+                "disponibilidad": true
+            }
+        ]
+    },
+    {
+        "_id": { "$oid": "60ad8b2b8d1f00007d4e8a23" },
+        "tipo": "Libro",
+        "titulo": "Don Quijote de la Mancha",
+        "autor": "Miguel de Cervantes",
+        "editorial": "Francisco de Robles",
+        "ano": "1605",
+        "edicion": "1",
+        "categoria": "Ficción",
+        "isbn": "978-3-16-148410-0",
+        "libros": [
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a24" },
+                "ubicacion": "23456",
+                "disponibilidad": true
+            },
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a25" },
+                "ubicacion": "78901",
+                "disponibilidad": true
+            }
+        ]
+    },
+    {
+        "_id": { "$oid": "60ad8b2b8d1f00007d4e8a26" },
+        "tipo": "Libro",
+        "titulo": "La sombra del viento",
+        "autor": "Carlos Ruiz Zafón",
+        "editorial": "Planeta",
+        "ano": "2001",
+        "edicion": "1",
+        "categoria": "Ficción",
+        "isbn": "978-84-08-03650-3",
+        "libros": [
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a27" },
+                "ubicacion": "34567",
+                "disponibilidad": true
+            },
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a28" },
+                "ubicacion": "89012",
+                "disponibilidad": true
+            }
+        ]
+    },
+    {
+        "_id": { "$oid": "60ad8b2b8d1f00007d4e8a29" },
+        "tipo": "Libro",
+        "titulo": "1984",
+        "autor": "George Orwell",
+        "editorial": "Secker & Warburg",
+        "ano": "1949",
+        "edicion": "1",
+        "categoria": "Distopía",
+        "isbn": "978-0-452-28423-4",
+        "libros": [
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a2a" },
+                "ubicacion": "45678",
+                "disponibilidad": true
+            },
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a2b" },
+                "ubicacion": "90123",
+                "disponibilidad": true
+            }
+        ]
+    },
+    {
+        "_id": { "$oid": "60ad8b2b8d1f00007d4e8a2c" },
+        "tipo": "Libro",
+        "titulo": "El nombre de la rosa",
+        "autor": "Umberto Eco",
+        "editorial": "Bompiani",
+        "ano": "1980",
+        "edicion": "1",
+        "categoria": "Misterio",
+        "isbn": "978-84-7888-218-9",
+        "libros": [
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a2d" },
+                "ubicacion": "56789",
+                "disponibilidad": true
+            },
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a2e" },
+                "ubicacion": "12398",
+                "disponibilidad": true
+            }
+        ]
+    },
+    {
+        "_id": { "$oid": "60ad8b2b8d1f00007d4e8a2f" },
+        "tipo": "Libro",
+        "titulo": "Crimen y castigo",
+        "autor": "Fiódor Dostoyevski",
+        "editorial": "Ediciones Alba",
+        "ano": "1866",
+        "edicion": "1",
+        "categoria": "Ficción",
+        "isbn": "978-84-9065-094-3",
+        "libros": [
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a30" },
+                "ubicacion": "67890",
+                "disponibilidad": true
+            },
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a31" },
+                "ubicacion": "23487",
+                "disponibilidad": true
+            }
+        ]
+    },
+    {
+        "_id": { "$oid": "60ad8b2b8d1f00007d4e8a32" },
+        "tipo": "Libro",
+        "titulo": "El señor de los anillos",
+        "autor": "J.R.R. Tolkien",
+        "editorial": "Allen & Unwin",
+        "ano": "1954",
+        "edicion": "1",
+        "categoria": "Fantasía",
+        "isbn": "978-84-450-7393-6",
+        "libros": [
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a33" },
+                "ubicacion": "78901",
+                "disponibilidad": true
+            },
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a34" },
+                "ubicacion": "34578",
+                "disponibilidad": true
+            }
+        ]
+    },
+    {
+        "_id": { "$oid": "60ad8b2b8d1f00007d4e8a35" },
+        "tipo": "Libro",
+        "titulo": "Matar a un ruiseñor",
+        "autor": "Harper Lee",
+        "editorial": "J.B. Lippincott & Co.",
+        "ano": "1960",
+        "edicion": "1",
+        "categoria": "Ficción",
+        "isbn": "978-0-06-093546-7",
+        "libros": [
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a36" },
+                "ubicacion": "89012",
+                "disponibilidad": true
+            },
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a37" },
+                "ubicacion": "45678",
+                "disponibilidad": true
+            }
+        ]
+    },
+    {
+        "_id": { "$oid": "60ad8b2b8d1f00007d4e8a38" },
+        "tipo": "Libro",
+        "titulo": "El código Da Vinci",
+        "autor": "Dan Brown",
+        "editorial": "Doubleday",
+        "ano": "2003",
+        "edicion": "1",
+        "categoria": "Misterio",
+        "isbn": "978-0-385-50420-1",
+        "libros": [
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a39" },
+                "ubicacion": "90123",
+                "disponibilidad": true
+            },
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a3a" },
+                "ubicacion": "56789",
+                "disponibilidad": true
+            }
+        ]
+    },
+    {
+        "_id": { "$oid": "60ad8b2b8d1f00007d4e8a3b" },
+        "tipo": "Libro",
+        "titulo": "Los pilares de la Tierra",
+        "autor": "Ken Follett",
+        "editorial": "Penguin Books",
+        "ano": "1989",
+        "edicion": "1",
+        "categoria": "Ficción histórica",
+        "isbn": "978-0-451-21428-0",
+        "libros": [
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a3c" },
+                "ubicacion": "12398",
+                "disponibilidad": true
+            },
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a3d" },
+                "ubicacion": "67890",
+                "disponibilidad": true
+            }
+        ]
+    },
+    {
+        "_id": { "$oid": "60ad8b2b8d1f00007d4e8a3e" },
+        "tipo": "Libro",
+        "titulo": "El alquimista",
+        "autor": "Paulo Coelho",
+        "editorial": "HarperTorch",
+        "ano": "1988",
+        "edicion": "1",
+        "categoria": "Fantasía",
+        "isbn": "978-0-06-112241-5",
+        "libros": [
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a3f" },
+                "ubicacion": "23487",
+                "disponibilidad": true
+            },
+            {
+                "_id": { "$oid": "60ad8b2b8d1f00007d4e8a40" },
+                "ubicacion": "78901",
+                "disponibilidad": true
+            }
+        ]
+    }
+]

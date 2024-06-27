@@ -1,6 +1,7 @@
 "use client";
 import React, {useState} from 'react'
 import { Navbar, Modal, Button, TextInput, Label, Select, Checkbox  } from 'flowbite-react';
+import axios from 'axios';
 
 export default function FlowNavAdmin({show, onClose, onClick }) {
     const [showModal, setShowModal] = useState(false);
@@ -29,11 +30,15 @@ export default function FlowNavAdmin({show, onClose, onClick }) {
     };
 
       // Función para manejar el envío del formulario
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Datos del formulario:", formData);
-        // Aquí puedes hacer algo con los datos, como enviarlos a una API
-        handleClose();
+        try {
+          const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/document`, formData)
+          handleClose();
+        }
+        catch(err) {
+          console.error("Error: ", err);
+        }
     };
 
       // Función para manejar el cambio en los campos de "libros"
@@ -74,11 +79,11 @@ export default function FlowNavAdmin({show, onClose, onClick }) {
             <Navbar.Toggle />
             <div className="flex md:order-2">
             <Navbar.Collapse>
-                <Button pill color="success" className="mr-[2rem] " size="lg">Inicio</Button>
+                <Button pill color="success" className="mr-[2rem] " size="lg" href='/admin'>Inicio</Button>
                 <Button onClick={handleShow} pill color="success" className="mr-[2rem] " size="lg">Añadir Documento</Button>
                 <Button pill color="success" className="mr-[2rem] " size="lg">Eliminar Documento</Button>
-                <Button pill color="success" className="mr-[2rem] " size="lg">Solicitudes</Button>
-                <Button pill color="success" className="mr-[2rem] " size="lg">Prestamos</Button>
+                <Button pill color="success" className="mr-[2rem] " size="lg" href='/admin/solicitudes'>Solicitudes</Button>
+                <Button pill color="success" className="mr-[2rem] " size="lg" href='/admin/prestamos'>Prestamos</Button>
             </Navbar.Collapse>
           </div>
         </Navbar>

@@ -1,87 +1,46 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { Sidebar } from "flowbite-react";
-import { BiBuoy } from "react-icons/bi";
-import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag, HiTable, HiUser, HiViewBoards } from "react-icons/hi";
 
+// Componente para la barra lateral
 export function SideBar() {
+  // Estado para almacenar las categorías
+  const [categorias, setCategorias] = useState([]);
+
+  // Función para obtener los datos de la API
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/documents");
+      const data = response.data;
+
+      // Extraer las categorías únicas
+      const categoriasUnicas = [...new Set(data.map(item => item.categoria))];
+
+      // Actualizar el estado con las categorías únicas
+      setCategorias(categoriasUnicas);
+    } catch (error) {
+      console.error("Error al obtener los datos:", error);
+    }
+  };
+
+  // useEffect para llamar a la función fetchData cuando el componente se monte
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
-<Sidebar  aria-label="Sidebar with content separator example" style={{ width: '400px' }}className="bg-black-500/75">
-  <Sidebar.Items>
-    <Sidebar.ItemGroup>
-      <Sidebar.Item href="#" >
-        Artes
-      </Sidebar.Item>
-      <Sidebar.Item href="#">
-        Biografías, Literatura Y Estudios Literarios
-      </Sidebar.Item>
-
-      <Sidebar.Item href="#">
-        Computación Y Tecnología De La Información
-      </Sidebar.Item>
-
-      <Sidebar.Item href="#">
-        Deportes Y Actividades De Ocio Al Aire Libre
-      </Sidebar.Item>
-      <Sidebar.Item href="#">
-        Derecho
-      </Sidebar.Item>
-      <Sidebar.Item href="#">
-        Economía, Finanzas, Empresa Y Gestión
-      </Sidebar.Item>
-      <Sidebar.Item href="#">
-        Estilos De Vida, Aficiones Y Ocio
-      </Sidebar.Item>
-      <Sidebar.Item href="#">
-        Ficción Y Temas Afines
-      </Sidebar.Item>
-      <Sidebar.Item href="#">
-        Filosofía Y Religión
-      </Sidebar.Item>
-      <Sidebar.Item href="#">
-        Historia Y Arqueología
-      </Sidebar.Item>
-      <Sidebar.Item href="#">
-        Infantiles, Juveniles Y Didácticos
-      </Sidebar.Item>
-      <Sidebar.Item href="#">
-        Lenguaje Y Lingüística
-      </Sidebar.Item>
-      <Sidebar.Item href="#">
-        Matemáticas Y Ciencias
-      </Sidebar.Item>
-      <Sidebar.Item href="#">
-        Medicina, Enfermería, Veterinaria
-      </Sidebar.Item>
-
-      <Sidebar.Item href="#">
-        Salud, Relaciones Y Desarrollo Personal
-      </Sidebar.Item>
-      <Sidebar.Item href="#">
-        Sociedad Y Ciencias Sociales
-      </Sidebar.Item>
-
-      <Sidebar.Item href="#">
-        Calificadores De Período De Tiempo
-      </Sidebar.Item>
-      <Sidebar.Item href="#">
-        Calificadores De Lengua
-      </Sidebar.Item>
-      <Sidebar.Item href="#">
-        Calificadores De Lugar
-      </Sidebar.Item>
-      <Sidebar.Item href="#">
-        Calificadores De Interés
-      </Sidebar.Item>
-      <Sidebar.Item href="#">
-        Calificadores De Fines Educativos
-      </Sidebar.Item>
-      <Sidebar.Item href="#">
-        Calificadores De Estilo
-      </Sidebar.Item>
-    </Sidebar.ItemGroup>
-  </Sidebar.Items>
-</Sidebar>
-
+    <Sidebar aria-label="Sidebar with content separator example" style={{ width: '400px' }} className="bg-black-500/75">
+      <Sidebar.Items>
+        <Sidebar.ItemGroup>
+          {categorias.map((categoria, index) => (
+            <Sidebar.Item key={index} href="#">
+              {categoria}
+            </Sidebar.Item>
+          ))}
+        </Sidebar.ItemGroup>
+      </Sidebar.Items>
+    </Sidebar>
   );
 }

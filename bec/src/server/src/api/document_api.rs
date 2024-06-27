@@ -48,6 +48,16 @@ pub async fn get_document(db: Data<MongoRepo>, path: Path<String>) -> HttpRespon
         Err(e) => HttpResponse::InternalServerError().body(e.to_string()),
     }
 }
+
+#[get("/documents")]
+pub async fn get_all_docs(db: Data<MongoRepo>) -> HttpResponse {
+    let documents = db.get_all_documents().await;
+    match documents {
+        Ok(documents) => HttpResponse::Ok().json(documents),
+        Err(e) => HttpResponse::InternalServerError().body(e.to_string()),
+    }
+}
+
 #[derive(Deserialize)]
 pub struct AvailabilityUpdate {
     availability: bool,

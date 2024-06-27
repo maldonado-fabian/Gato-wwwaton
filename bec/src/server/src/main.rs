@@ -6,7 +6,7 @@ use actix_cors::Cors;
 use actix_web::{ web::Data, App, HttpServer };
 use api::{
     user_api::{create_user, get_user, put_user, delete_user,get_users, login},
-    document_api::{create_document, get_document, update_book_availability},
+    document_api::{create_document, get_document, update_book_availability, get_all_docs},
     prestamos_api::{create_prestamo, get_prestamo, put_prestamo, delete_prestamo,get_prestamos}
 
 };
@@ -35,6 +35,7 @@ async fn main() -> std::io::Result<()> {
         .service(update_book_availability)
         .service(create_document)
         .service(get_document)
+        .service(get_all_docs)
         .service(create_prestamo)
         .service(get_prestamo)
         .service(put_prestamo)

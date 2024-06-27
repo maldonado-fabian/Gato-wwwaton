@@ -211,6 +211,24 @@ impl MongoRepo {
         Ok(update_result)
     }
 
+    pub async fn get_all_documents(&self) -> Result<Vec<Document>, Error> {
+        let mut cursor = self
+                            .col_document
+                            .find(None,None)
+                            .await
+                            .ok()
+                            .expect("Error getting list of solicitudes.");
+        let mut documentos: Vec<Document> = Vec::new();
+        while let Some(doc) = cursor
+                .try_next()
+                .await
+                .ok()
+                .expect("Error mapping through cursor.") {
+                    documentos.push(doc)
+                }
+        Ok(documentos)
+    }
+
 
 }
 
